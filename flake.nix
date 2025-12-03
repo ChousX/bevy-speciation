@@ -32,6 +32,10 @@
           "cargo"
           "llvm-tools"
           "rustc"
+          "rustfmt"
+          "clippy"
+          "rust-analyzer"
+          "rustc"
         ];
 
         bevy-runtime-deps = with pkgs; [

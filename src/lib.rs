@@ -1,14 +1,12 @@
-pub fn add(left: u64, right: u64) -> u64 {
-    left + right
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
-}
+mod anatomical_features;
+mod appendage;
+mod body;
+mod head;
+mod organism;
+mod primitives;
+mod skeletal;
+mod sockets_symmetry;
+mod species;
+mod surface;
+mod tissue_muscle;
+mod validation_errors;
