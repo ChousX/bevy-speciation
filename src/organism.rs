@@ -9,10 +9,10 @@ use crate::{
 
 #[derive(Clone, Debug)]
 pub struct Organism {
-    genome_seed: GenomeSeed,
-    symmetry: BodySymmetry,
-    head: Cranium,
-    torso: Torso,
+    pub(crate) genome_seed: GenomeSeed,
+    pub(crate) symmetry: BodySymmetry,
+    pub(crate) head: Cranium,
+    pub(crate) torso: Torso,
 }
 
 impl Organism {

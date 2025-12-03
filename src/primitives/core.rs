@@ -1,5 +1,13 @@
+use rand::{SeedableRng, rngs::StdRng};
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct GenomeSeed(pub u64);
+
+impl From<GenomeSeed> for StdRng {
+    fn from(value: GenomeSeed) -> Self {
+        StdRng::seed_from_u64(value.0)
+    }
+}
 
 #[derive(Clone, Copy, Debug, PartialEq, PartialOrd)]
 pub struct Normalized(f32);

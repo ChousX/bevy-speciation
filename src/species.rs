@@ -129,7 +129,7 @@ pub struct Species {
 impl Species {
     /// Validate and construct a Species from unvalidated input
     pub fn new(input: UnvalidatedSpecies) -> Result<Self, SpeciesValidationError> {
-        let max_vertebrae = *input.torso.spine.vertebra_count.end();
+        let max_vertebrae = input.torso.spine.vertebra_count.end();
 
         // Validate appendage socket indices
         for socket_rule in &input.torso.spine.appendage_sockets {
@@ -177,16 +177,16 @@ impl Species {
     }
 
     pub fn min_vertebrae(&self) -> Count {
-        *self.torso.spine.vertebra_count.start()
+        self.torso.spine.vertebra_count.start()
     }
 
     pub fn max_vertebrae(&self) -> Count {
-        *self.torso.spine.vertebra_count.end()
+        self.torso.spine.vertebra_count.end()
     }
 
     /// Generate a valid Organism from this Species using the given seed
     pub fn generate(&self, seed: GenomeSeed) -> Result<Organism, GenerationError> {
-        let mut rng = Self::rng_from_seed(seed);
+        let mut rng: StdRng = seed.into();
 
         let vertebra_count = self.sample_vertebra_count(&mut rng);
         let head = self.generate_cranium(&mut rng)?;
@@ -198,11 +198,6 @@ impl Species {
             head,
             torso,
         })
-    }
-
-    fn rng_from_seed(_seed: GenomeSeed) -> impl Rng {
-        // Placeholder: use seed to create deterministic RNG
-        todo!("Implement seeded RNG")
     }
 
     fn sample_vertebra_count(&self, _rng: &mut impl Rng) -> Count {
