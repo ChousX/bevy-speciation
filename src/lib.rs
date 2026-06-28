@@ -14,4 +14,5 @@ mod validation_errors;
 
 // Re-export key types for skeleton generation
 pub use organism::Organism;
-pub use skeleton::{GeneratedSkeleton, SkeletonGenerator};
+pub use skeleton::GeneratedSkeleton;
+pub use skeleton::SkeletonGenerator;

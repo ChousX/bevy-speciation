@@ -2,7 +2,7 @@ use bevy::prelude::{Quat, Vec3};
 
 use crate::{primitives::Length, skeletal::JointArticulation};
 
-use super::BoneId;
+use super::bone_id::BoneId;
 
 /// Rest pose transform relative to parent bone
 #[derive(Clone, Copy, Debug)]
@@ -35,16 +35,26 @@ impl RestTransform {
         }
     }
 
-    /// Create transform with a lateral offset (for bilateral symmetry)
-    pub fn with_lateral_offset(mut self, offset: f32) -> Self {
-        self.translation.x += offset;
-        self
+    /// Create transform with translation and rotation
+    pub fn new(translation: Vec3, rotation: Quat) -> Self {
+        Self {
+            translation,
+            rotation,
+        }
     }
 
     /// Mirror across the YZ plane (negate X)
     pub fn mirrored_x(mut self) -> Self {
         self.translation.x = -self.translation.x;
         self
+    }
+
+    /// Compose with another transform (self applied first)
+    pub fn then(self, other: Self) -> Self {
+        Self {
+            translation: self.translation + self.rotation * other.translation,
+            rotation: self.rotation * other.rotation,
+        }
     }
 }
 

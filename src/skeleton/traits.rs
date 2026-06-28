@@ -122,6 +122,9 @@ pub trait Terminable {
 
     /// Whether this terminus branches into multiple endpoints
     fn is_branching(&self) -> bool;
+
+    /// Length of terminal bones (if any)
+    fn terminal_bone_length(&self) -> Option<Length>;
 }
 
 impl Terminable for Terminus {
@@ -130,16 +133,25 @@ impl Terminable for Terminus {
             Terminus::Tapered => 0,
             Terminus::Hoof => 0,
             Terminus::Sucker => 0,
-            Terminus::Pincer => 2,
-            Terminus::Claw { digits } => digits.value(),
-            Terminus::Paw { digits } => digits.value(),
+            Terminus::Pincer(_) => 2,
+            Terminus::Claw(config) => config.count.value(),
+            Terminus::Paw(config) => config.count.value(),
         }
     }
 
     fn is_branching(&self) -> bool {
         match self {
             Terminus::Tapered | Terminus::Hoof | Terminus::Sucker => false,
-            Terminus::Pincer | Terminus::Claw { .. } | Terminus::Paw { .. } => true,
+            Terminus::Pincer(_) | Terminus::Claw(_) | Terminus::Paw(_) => true,
+        }
+    }
+
+    fn terminal_bone_length(&self) -> Option<Length> {
+        match self {
+            Terminus::Tapered | Terminus::Hoof | Terminus::Sucker => None,
+            Terminus::Pincer(config) => Some(config.length),
+            Terminus::Claw(config) => Some(config.length),
+            Terminus::Paw(config) => Some(config.length),
         }
     }
 }
